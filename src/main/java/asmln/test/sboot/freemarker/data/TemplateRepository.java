@@ -1,4 +1,4 @@
-package asmln.test.sboot.data;
+package asmln.test.sboot.freemarker.data;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

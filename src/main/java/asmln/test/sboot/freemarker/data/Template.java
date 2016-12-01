@@ -1,4 +1,4 @@
-package asmln.test.sboot.data;
+package asmln.test.sboot.freemarker.data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

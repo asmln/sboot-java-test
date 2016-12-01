@@ -1,7 +1,7 @@
 package asmln.test.sboot.freemarker;
 
-import asmln.test.sboot.data.Template;
-import asmln.test.sboot.data.TemplateRepository;
+import asmln.test.sboot.freemarker.data.Template;
+import asmln.test.sboot.freemarker.data.TemplateRepository;
 import freemarker.cache.TemplateLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
