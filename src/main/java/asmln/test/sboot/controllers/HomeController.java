@@ -5,14 +5,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Created by samoylenko on 30.11.16.
+ * Home. Simple request.
  */
 @RestController
 public class HomeController {
 
     @RequestMapping("/")
-    @ResponseBody
-    String hello() {
+    public String hello() {
         return "Hello from Spring Boot!";
     }
 }
