@@ -29,6 +29,8 @@ repositories {
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter')
 	compile('org.springframework.boot:spring-boot-starter-web')
+	compile("org.springframework.boot:spring-boot-starter-data-jpa")
+	compile("com.h2database:h2")
 	compile group: 'org.freemarker', name: 'freemarker', version: '2.3.25-incubating'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

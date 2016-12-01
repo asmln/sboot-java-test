@@ -22,17 +22,21 @@ import java.util.concurrent.atomic.AtomicInteger;
 @RequestMapping("/template")
 public class TemplateController {
 
-    private Configuration freemarkerConfig;
-    private Configuration freemarkerStrConfig;
+    private final Configuration freemarkerDbConfig;
+    private final Configuration freemarkerConfig;
+    private final Configuration freemarkerStrConfig;
 
     private AtomicInteger count = new AtomicInteger(0);
 
     public TemplateController(@Autowired @Qualifier("freemarkerConfig") Configuration freemarkerConfig,
-                              @Autowired @Qualifier("freemarkerStrConfig") Configuration freemarkerStrConfig) {
+                              @Autowired @Qualifier("freemarkerStrConfig") Configuration freemarkerStrConfig,
+                              @Autowired @Qualifier("freemarkerDbConfig") Configuration freemarkerDbConfig) {
         this.freemarkerConfig = freemarkerConfig;
         this.freemarkerStrConfig = freemarkerStrConfig;
+        this.freemarkerDbConfig = freemarkerDbConfig;
     }
 
+    //html from template files
     @RequestMapping(value = "/html", method = RequestMethod.GET, produces = "text/html")
     @ResponseBody
     public String html(@RequestParam(name = "user", defaultValue = "comrade") String userName) throws IOException, TemplateException {
@@ -45,6 +49,7 @@ public class TemplateController {
         return writer.toString();
     }
 
+    //text from template files
     @RequestMapping(value = "/text", method = RequestMethod.GET, produces = "text/plain")
     @ResponseBody
     public String text(@RequestParam(name = "user", defaultValue = "comrade") String userName) throws IOException, TemplateException {
@@ -57,6 +62,7 @@ public class TemplateController {
         return writer.toString();
     }
 
+    //text from template strings with imports by #include
     @RequestMapping(value = "/text-import", method = RequestMethod.GET, produces = "text/plain")
     @ResponseBody
     public String textWithImport(@RequestParam(name = "user", defaultValue = "comrade") String userName) throws IOException, TemplateException {
@@ -69,6 +75,7 @@ public class TemplateController {
         return writer.toString();
     }
 
+    //html from template string with css by variable
     @RequestMapping(value = "/html-str", method = RequestMethod.GET, produces = "text/html")
     @ResponseBody
     public String htmlFromString(@RequestParam(name = "user", defaultValue = "comrade") String userName) throws IOException, TemplateException {
@@ -92,6 +99,19 @@ public class TemplateController {
         Writer writer = new StringWriter();
         String cssStr = "h1 {color: #66161A;} div {margin-left: 10px;}";
         root.put("css", cssStr);
+        tmpl.process(root, writer);
+        return writer.toString();
+    }
+
+    //text from DB templates with imports by #include
+    @RequestMapping(value = "/text-db", method = RequestMethod.GET, produces = "text/plain")
+    @ResponseBody
+    public String textFromDb(@RequestParam(name = "user", defaultValue = "comrade") String userName) throws IOException, TemplateException {
+        Map<String, Object> root = new HashMap<>();
+        root.put("userName", userName);
+        root.put("count", count.getAndAdd(1));
+        Template tmpl = this.freemarkerDbConfig.getTemplate("text");
+        Writer writer = new StringWriter();
         tmpl.process(root, writer);
         return writer.toString();
     }
